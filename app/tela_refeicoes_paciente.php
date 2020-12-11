@@ -2,6 +2,7 @@
 
 require_once("config.php");
 
+if (!$_SESSION["id"]) header("Location: tela_login.php");
 
 $sql = new Sql();
 $id = $_SESSION["id"];

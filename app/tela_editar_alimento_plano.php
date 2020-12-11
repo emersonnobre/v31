@@ -3,28 +3,15 @@
 require_once("config.php");
 $sql = new Sql();
 $paciente = new Paciente();
-$paciente->
-$idref = Paciente::returnIdbyName($_SESSION["ref"]);
-$ids = $sql->select("
-select id from alimentos where
-nome = :NOME
-", array(
-    ':NOME'=>$_GET["nome"]
-));
-
-foreach ($ids as $id) {
-    foreach ($id as $key => $value) {
-        $idalimento = $value;
-    }
-    
-}
-
+$paciente->loadbyId($_SESSION["idpaciente"]);
+$paciente->loadPlanoId();
+$idref = Paciente::returnIdbyName($_SESSION["refeicao"]);
 $alimento = new Alimento();
-$alimento->loadbyId($idalimento);
+$alimento->loadbyName($_GET["alimento"]);
 
 if (isset($_POST["qtd"])) {
-    header("Location: tela_amostra_refeicao_paciente.php?ref=".$_SESSION["ref"]);
-    $alimento->atualizarAlimentoConsumido($_SESSION["id"], $idref, date("Y-m-d"), $_POST["qtd"]);
+    header("Location: tela_amostra_refeicao_nutri.php?ref=".$_SESSION["refeicao"]);
+    Nutricionista::updateAlimentoPlano($alimento->getCodigo(), $paciente->getPlanoId(), $idref, $_POST["qtd"]);
 }
 
 ?>
@@ -34,7 +21,7 @@ if (isset($_POST["qtd"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Plano alimentar</title>
     <link rel="stylesheet" href="css/estilo.php">
     <link 
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
@@ -59,6 +46,6 @@ if (isset($_POST["qtd"])) {
             <input type="submit" value="Confirmar">
         </form>
     </div>
-    <button class="btn btnAbsolute" onclick="document.location='tela_amostra_refeicao_paciente.php?ref=<?=$_SESSION['ref']?>'">Voltar</button>
+    <button class="btn btnAbsolute" onclick="document.location='tela_amostra_refeicao_nutri.php?ref=<?=$_SESSION['refeicao']?>'">Voltar</button>
 </body>
 </html>

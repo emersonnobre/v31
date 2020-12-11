@@ -23,10 +23,6 @@ $results = $sql->select("select nome from alimentos where lower(nome) like :NOME
       rel="stylesheet"
     />
     <link rel="stylesheet" type="text/css" href="css/estilo.php" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lobster&display=swap"
-      rel="stylesheet"
-    />
 </head>
 <body class="bodyA">
 <header class="cabecalho">

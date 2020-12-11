@@ -28,11 +28,11 @@ $nutri->loadbyId();
 	</header>
 	<section class="box-xl">
     <div class="text-left text-little">
-      <p class="important-text text-bold">Nome: <?php echo "<p>".$nutri->getNome()."</p>";?></p>
+      <p class="important-text text-bold">Nome: <?php echo "<p class='text-min'>".$nutri->getNome()."</p>";?></p>
       <br>
-      <p class="important-text text-bold">E-mail: <?php echo "<p>".$nutri->getEmail()."</p>";?></p>
+      <p class="important-text text-bold">E-mail: <?php echo "<p class='text-min'>".$nutri->getEmail()."</p>";?></p>
       <br>
-      <p class="important-text text-bold">Senha: <?php echo "<p>".$nutri->getSenha()."</p>";?></p>
+      <p class="important-text text-bold">Senha: <?php echo "<p class='text-min'>".$nutri->getSenha()."</p>";?></p>
       <br>
     </div>
     
@@ -40,6 +40,8 @@ $nutri->loadbyId();
     <button class="btn" onclick="document.location='tela_cadastrar_alimento.php'">Cadastrar um novo alimento na base</button>
     <button class="btn" onclick="document.location='tela_lista_alimentos_cadastrados.php'">Lista de alimentos cadastrados na base</button>
     <button class="btn" onclick="document.location='tela_lista_dicas_cadastradas.php'">Lista de dicas cadastradas na base</button>
+    <button class="btn btn-logout" onclick="document.location='destroy_session.php'">Sair da conta</button>
+
 
 	</section>
   <button class="btn btnAbsolute" onclick="document.location='tela_pacientes_nutri.php'">Voltar</button>

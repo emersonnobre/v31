@@ -318,23 +318,23 @@ class Paciente {
     public function login($email,$senha){
         global $pdo;
         
-        $sql="SELECT * FROM pacientes where email=:email AND senha=:senha";
+        $sql="SELECT id, senha FROM pacientes where email=:email";
             
         $sql=$pdo->prepare($sql);
         $sql->bindValue("email",$email);
-        $sql->bindValue("senha",$senha);
         $sql->execute();
     
-
-         if($sql->rowCount()>0){
-            $dado=$sql->fetch();
-        
-
-            $_SESSION["id"]= $dado["id"];
-            return true;
-         }else{
+        if($sql->rowCount()>0){
+            $dado = $sql->fetch();
+            if (password_verify($senha, $dado["senha"])){
+                $_SESSION["id"]= $dado["id"];
+                return true;
+            } else {
                 return false;
-             }
+            }
+        }else{
+            return false;
+        }
     }
 
 
@@ -440,6 +440,26 @@ class Paciente {
 
     }
 
+    public function insertPlanoId(){
+        $sql = new Sql();
+        $results = $sql->select("
+        select id from tb_planos where id_paciente = :ID
+        ", array(
+            ':ID'=>$this->getId()
+        ));
+
+        foreach ($results as $result) {
+            foreach($result as $key => $value){
+                $idPlano = $value;
+            }
+        }
+
+        $sql->query("update pacientes set id_plano = :ID where id = :IDPA", array(
+            ':ID'=>$idPlano,
+            ':IDPA'=>$this->getId()
+        ));
+    }
+
     public function loadPlanoId(){
         $sql = new Sql();
         $ids = $sql->select("
@@ -456,6 +476,246 @@ class Paciente {
         }
     }
 
+    public function MediaCalorias(){
+        $sql=new Sql();
+        $results= $sql->query("
+        select avg(calorias) from alimentos,alimentos_consumidos,pacientes
+        where  alimentos_consumidos.id_paciente = :ID and
+        pacientes.id = alimentos_consumidos.id_paciente
+        ", array(
+            'ID'=>$this->getId()
+            
+        ));
+        
+        foreach ($results as $result) {
+            foreach ($result as $key => $value) {
+                return $value;
+            }
+        }
+       
+    }
+   
+
+    public function MaxCalorias(){
+        $sql=new Sql();
+        $results= $sql->query("
+        select max(calorias) from alimentos,alimentos_consumidos,pacientes
+        where  alimentos_consumidos.id_paciente = :ID and
+        pacientes.id = alimentos_consumidos.id_paciente
+        ", array(
+            'ID'=>$this->getId()
+            
+        ));
+        
+        foreach ($results as $result) {
+            foreach ($result as $key => $value) {
+                return $value;
+            }
+        }
+       
+    }
+
+    public function MinCalorias(){
+        $sql=new Sql();
+        $results= $sql->query("
+        select min(calorias) from alimentos,alimentos_consumidos,pacientes
+        where  alimentos_consumidos.id_paciente = :ID and
+        pacientes.id = alimentos_consumidos.id_paciente
+        ", array(
+            'ID'=>$this->getId()
+            
+        ));
+        
+        foreach ($results as $result) {
+            foreach ($result as $key => $value) {
+                return $value;
+            }
+        }
+       
+    }
+    public function MediaCarboidratos(){
+        $sql=new Sql();
+        $results= $sql->query("
+        select avg(carboidratos) from alimentos,alimentos_consumidos,pacientes
+        where  alimentos_consumidos.id_paciente = :ID and
+        pacientes.id = alimentos_consumidos.id_paciente
+        ", array(
+            'ID'=>$this->getId()
+            
+        ));
+        
+        foreach ($results as $result) {
+            foreach ($result as $key => $value) {
+                return $value;
+            }
+        }
+       
+    }
+
+    public function MediaProteinas(){
+        $sql=new Sql();
+        $results= $sql->query("
+        select avg(proteinas) from alimentos,alimentos_consumidos,pacientes
+        where  alimentos_consumidos.id_paciente = :ID and
+        pacientes.id = alimentos_consumidos.id_paciente
+        ", array(
+            'ID'=>$this->getId()
+            
+        ));
+        
+        foreach ($results as $result) {
+            foreach ($result as $key => $value) {
+                return $value;
+            }
+        }
+       
+    }
+
+    public function MediaGorduras(){
+        $sql=new Sql();
+        $results= $sql->query("
+        select avg(gorduras) from alimentos,alimentos_consumidos,pacientes
+        where  alimentos_consumidos.id_paciente = :ID and
+        pacientes.id = alimentos_consumidos.id_paciente
+        ", array(
+            'ID'=>$this->getId()
+            
+        ));
+        
+        foreach ($results as $result) {
+            foreach ($result as $key => $value) {
+                return $value;
+            }
+        }
+       
+    }
+
+ 
+    public function MaxCaloriasByDate($inicio,$fim){
+        $sql=new Sql();
+        $results= $sql->query("
+        select max(calorias) from alimentos,alimentos_consumidos,pacientes
+        where  alimentos_consumidos.id_paciente = :ID and
+        data between cast(:data_ini as date) and  cast(:data_fim as date)
+        ", array(
+            'ID'=>$this->getId(),
+            ':data_ini'=>$inicio,
+            ':data_fim'=>$fim
+            
+        ));
+        
+        foreach ($results as $result) {
+            foreach ($result as $key => $value) {
+                return $value;
+            }
+        }
+       
+    }
+    public function MinCaloriasByDate($inicio,$fim){
+        $sql=new Sql();
+        $results= $sql->query("
+        select min(calorias) from alimentos,alimentos_consumidos,pacientes
+        where  alimentos_consumidos.id_paciente = :ID and
+        pacientes.id = alimentos_consumidos.id_paciente and
+        data between cast(:data_ini as date) and  cast(:data_fim as date)
+        ", array(
+            'ID'=>$this->getId(),
+            ':data_ini'=>$inicio,
+            ':data_fim'=>$fim
+            
+        ));
+        
+        foreach ($results as $result) {
+            foreach ($result as $key => $value) {
+                return $value;
+            }
+  }
+       
+    }
+    public function MediaCaloriasByDate($inicio,$fim){
+        $sql=new Sql();
+        $results= $sql->query("
+        select avg(calorias) from alimentos,alimentos_consumidos,pacientes
+        where  alimentos_consumidos.id_paciente = :ID and
+        pacientes.id = alimentos_consumidos.id_paciente and
+        data between cast(:data_ini as date) and  cast(:data_fim as date)
+        ", array(
+            'ID'=>$this->getId(),
+            ':data_ini'=>$inicio,
+            ':data_fim'=>$fim
+            
+        ));
+        
+        foreach ($results as $result) {
+            foreach ($result as $key => $value) {
+                return $value;
+            }
+        }
+       
+    }
+    public function MediaCarboidratosByDate($inicio,$fim){
+        $sql=new Sql();
+        $results= $sql->query("
+        select avg(carboidratos) from alimentos,alimentos_consumidos,pacientes
+        where  alimentos_consumidos.id_paciente = :ID and
+        pacientes.id = alimentos_consumidos.id_paciente and
+        data between cast(:data_ini as date) and  cast(:data_fim as date)
+        ", array(
+            'ID'=>$this->getId(),
+            ':data_ini'=>$inicio,
+            ':data_fim'=>$fim
+            
+        ));
+        
+        foreach ($results as $result) {
+            foreach ($result as $key => $value) {
+                return $value;
+            }
+        }
+       
+    }
+    public function MediaProteinasByDate($inicio,$fim){
+        $sql=new Sql();
+        $results= $sql->query("
+        select avg(proteinas) from alimentos,alimentos_consumidos,pacientes
+        where  alimentos_consumidos.id_paciente = :ID and
+        pacientes.id = alimentos_consumidos.id_paciente and
+        data between cast(:data_ini as date) and  cast(:data_fim as date)
+        ", array(
+            'ID'=>$this->getId(),
+            ':data_ini'=>$inicio,
+            ':data_fim'=>$fim
+            
+        ));
+        
+        foreach ($results as $result) {
+            foreach ($result as $key => $value) {
+                return $value;
+            }
+        }
+       
+    }
+    public function MediaGordurasByDate($inicio,$fim){
+        $sql=new Sql();
+        $results= $sql->query("
+        select avg(gorduras) from alimentos,alimentos_consumidos,pacientes
+        where  alimentos_consumidos.id_paciente = :ID and
+        pacientes.id = alimentos_consumidos.id_paciente and
+        data between cast(:data_ini as date) and  cast(:data_fim as date)
+        ", array(
+            'ID'=>$this->getId(),
+            ':data_ini'=>$inicio,
+            ':data_fim'=>$fim
+            
+        ));
+        
+        foreach ($results as $result) {
+            foreach ($result as $key => $value) {
+                return $value;
+            }
+        }
+       
+    }
 }
 
 ?>

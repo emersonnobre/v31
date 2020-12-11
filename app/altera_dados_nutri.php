@@ -13,7 +13,7 @@ if($_GET["email"]){
 	$nutri->updateNutri();
 }
 if($_GET["password"]){
-	$nutri->setSenha($_GET["password"]);
+	$nutri->setSenha(password_hash($_GET["password"], PASSWORD_DEFAULT));
 	$nutri->updateNutri();
 }
 

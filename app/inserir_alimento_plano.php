@@ -3,12 +3,13 @@ require_once("config.php");
 $nomeAlimento = $_GET["alimento"];
 $alimento = new Alimento();
 $alimento->loadbyName($nomeAlimento);
+$paciente = new Paciente();
+$paciente->loadbyId($_SESSION["idpaciente"]);
+$paciente->loadPlanoId();
 
 if (isset($nomeAlimento) && isset($_POST["qtd"])){
     header("Location: tela_amostra_refeicao_nutri.php?ref=".$_SESSION["refeicao"]);
-    $paciente = new Paciente();
-    $paciente->loadbyId($_SESSION["idpaciente"]);
-    $paciente->loadPlanoId();
+    
     $idref = Paciente::returnIdbyName($_SESSION["refeicao"]);
     Nutricionista::insertAlimentoPlano($alimento->getCodigo(), $paciente->getPlanoId(), $idref, $_POST["qtd"]);
 }
@@ -27,7 +28,7 @@ if (isset($nomeAlimento) && isset($_POST["qtd"])){
 </head>
 <body class = "bodyA">
     <div class="box-little">
-        <h2 class="text-md text-center" style="margin-top: 1px;">Inserir alimento</h2>
+        <h2 class="text-md text-center" style="margin-top: 1px;">Inserir alimento. Plano: <?=$paciente->getPlanoId()?></h2>
         <br>
         <br>
         <br>

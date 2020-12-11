@@ -1,7 +1,39 @@
+<?php
+
+if(isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["senha"]) && !empty($_POST["senha"])){
+  require_once("conexao.php");
+  require_once("config.php");
+  $sql = new Sql();
+  $results = $sql->select("select email from tb_nutricionista");
+  foreach ($results as $result) {
+    foreach ($result as $key => $value) {
+      $emailNutri = $value;
+    }
+  }
+  $paciente=new Paciente();
+  $email=addslashes($_POST["email"]);
+  $senha=addslashes($_POST["senha"]);
+
+  if ($email == $emailNutri) {
+    if (Nutricionista::login($emailNutri, $senha)) {header("location: tela_pacientes_nutri.php");} else {$err=1;}
+  }else {
+    if ($paciente->login($email,$senha)==true){
+      if(isset($_SESSION['id'])){
+        header("location:tela_refeicoes_paciente.php");
+      } else{
+        header("location:tela_login.php");
+      }
+    } else{
+      $err = 1;
+    }
+  }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
-    <title>Login</title>
+    <title>Entrar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8" />
     <link
@@ -10,18 +42,14 @@
     />
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/estilo.php" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lobster&display=swap"
-      rel="stylesheet"
-    />
   </head>
   <body class="bodyA">
     <header>
       <div class="box-md">
         <h1 class="text-xl"><strong>Login</strong></h1>
-        <form class="form" method="POST" action="logar.php">
+        <form class="form" method="POST" action="">
           <div class="inputBox">
-            <input type="text" name="email" placeholder="" required="" />
+            <input type="email" name="email" placeholder="" required="" />
             <label for="email">E-mail</label>
           </div>
           <div class="inputBox">
@@ -40,11 +68,32 @@
           ><strong>Esqueci minha senha</strong></a
         >
         <p class="text-little">Não tem uma conta?</p>
-        <a class="text-little" href="tela_cadastro.html" style="color: yellow; text-decoration: none;"
+        <a class="text-little" href="tela_cadastro.php" style="color: yellow; text-decoration: none;"
           ><strong>Cadastre-se</br></strong></a
         >
-        <a class="text-little" href="session.php" style="color: yellow; text-decoration: none;"><strong>Entrar(experimental)</strong></a>
+        
       </div>
     </header>
+    <div id="error" class="toasts toast--error">
+    E-mail ou senha inválidos
+    </div>
+    <?php
+    if ($err == 1) {
+      ?>
+      <script>
+      function showError(){
+        const not = document.getElementById('error')
+        not.classList.add('toast--visible')
+        setTimeout(() => {
+          not.classList.remove('toast--visible')
+        }, 2000);
+      }
+      showError()
+      </script>
+      <?php
+      $err = 0;
+    }
+    ?>
+    
   </body>
 </html>

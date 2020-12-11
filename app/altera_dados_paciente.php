@@ -18,7 +18,7 @@ if ($_GET["name"]){
     $user->setTelefone($_GET["tel"]);
     $user->updatePaciente();
 } if ($_GET["password"]){
-    $user->setSenha($_GET["password"]);
+    $user->setSenha(password_hash($_GET["password"], PASSWORD_DEFAULT));
     $user->updatePaciente();
 } if ($_GET["date"]){
     $ts = strtotime($_GET["date"]);

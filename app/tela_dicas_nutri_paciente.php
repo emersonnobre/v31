@@ -36,7 +36,7 @@ $dicas = $user->returnDicas();
         
         foreach ($dicas as $dica) {
           foreach ($dica as $key => $value) {
-            echo "<div class='grid-item green '><p class = 'text-little'>".$value."</p></div>";
+            echo "<div class='grid-item green '><p class = 'text-little'>".ucfirst($value)."</p></div>";
           }
         }
         

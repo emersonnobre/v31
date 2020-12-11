@@ -41,7 +41,7 @@ $refeicoes = Paciente::returnRefeicoes();
 				$alimentos = Alimento::alimentosPlano($_SESSION["id"], $value);
 				foreach ($alimentos as $alimento) {
 					foreach ($alimento as $key => $value) {
-						echo "<p class='text-little'>".$value."</p>";
+						echo "<p class='text-little'>".ucfirst($value)."</p>";
 					}
 				}
 				echo "</div>";

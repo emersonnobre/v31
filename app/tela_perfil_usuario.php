@@ -11,18 +11,14 @@ $user->loadbyId($_SESSION["id"]);
 <html>
 <head>
 	<title>Perfil do usuário</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" type="text/css" href="css/reset.css">
-    <link rel="stylesheet" type="text/css" href="css/estilo.php" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lobster&display=swap"
-      rel="stylesheet"
-    />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" type="text/css" href="css/reset.css">
+  <link rel="stylesheet" type="text/css" href="css/estilo.php" />
 </head>
 <body class="bodyA">
 	<header class="cabecalho">
@@ -30,15 +26,15 @@ $user->loadbyId($_SESSION["id"]);
 	</header>
 	<section class="box-xl text-little">
   <div class="box-half auto-height text-left">
-    <p class="text-bold important-text">Nome: <?php echo "<p>".$user->getNome()."</p>";?></p>
+    <p class="text-bold important-text">Nome: <?php echo "<p class='text-min'>".$user->getNome()."</p>";?></p>
     <br>
-    <p class="text-bold important-text">E-mail: <?php echo "<p>".$user->getEmail()."</p>";?></p>
+    <p class="text-bold important-text">E-mail: <?php echo "<p class='text-min'>".$user->getEmail()."</p>";?></p>
     <br>
-    <p class="text-bold important-text">Senha: <?php echo "<p>".$user->getSenha()."</p>";?></p>
+    <p class="text-bold important-text">Senha: <?php echo "<p class='text-min'>".$user->getSenha()."</p>";?></p>
     <br>
-    <p class="text-bold important-text">Data de nascimento: <?php $ts = strtotime($user->getdt_nascimento()); echo "<p>".date("d/m/Y", $ts)."</p>";?></p>
+    <p class="text-bold important-text">Data de nascimento: <?php $ts = strtotime($user->getdt_nascimento()); echo "<p class='text-min'>".date("d/m/Y", $ts)."</p>";?></p>
     <br>
-    <p class="text-bold important-text">Telefone: <?php echo "<p>".$user->getTelefone()."</p>";?></p>
+    <p class="text-bold important-text">Telefone: <?php echo "<p class='text-min'>".$user->getTelefone()."</p>";?></p>
     <br>
     <button class="btn" onclick="document.location='tela_edicao_perfil_paciente.php'">Editar</button>
     <button class="btn btn-logout" onclick="document.location='destroy_session.php'">Sair da conta</button>

@@ -1,6 +1,10 @@
 <?php
 
 require_once("config.php");
+
+if (!$_SESSION["nutri"]) {
+  header("location: tela_login.php");
+}
 $ids = Nutricionista::returnPacientes();
 $nutri = new Nutricionista();
 $nutri->loadbyId();

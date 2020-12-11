@@ -3,6 +3,6 @@
 require_once("config.php");
 session_unset();
 session_destroy();
-header("Location: session.php");
+header("Location: tela_login.php");
 
 ?>

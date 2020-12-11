@@ -131,15 +131,52 @@ class Nutricionista {
 
     public static function insertAlimentoPlano($idAlimento, $idPlano, $idRefeicao, $qtd) {
         $sql = new Sql();
-        $sql->query("
-        insert into tb_refeicoes_alimentos (id_alimento, id_refeicao, id_plano, qtd) values
-        (:IDALIMENTO, :IDREFEICAO, :IDPLANO, :QTD)
+        $valida = Nutricionista::verificaAlimentoPlano($idAlimento, $idPlano, $idRefeicao);
+        if ($valida) {
+            $sql->query("
+            update tb_refeicoes_alimentos set qtd = qtd + :QTD where
+            id_alimento = :IDALIMENTO and
+            id_plano = :IDPLANO and
+            id_refeicao = :IDREFEICAO
+            ", array(
+                ':IDALIMENTO'=>$idAlimento,
+                ':IDPLANO'=>$idPlano,
+                ':IDREFEICAO'=>$idRefeicao,
+                ':QTD'=>$qtd
+            ));
+        } else {
+            $sql->query("
+            insert into tb_refeicoes_alimentos (id_alimento, id_refeicao, id_plano, qtd) values
+            (:IDALIMENTO, :IDREFEICAO, :IDPLANO, :QTD)
+            ", array(
+                ':IDALIMENTO'=>$idAlimento,
+                ':IDREFEICAO'=>$idRefeicao, 
+                ':IDPLANO'=>$idPlano,
+                ':QTD'=>$qtd
+            ));
+        }
+        
+    }
+
+    // Verifica se um alimento já existe no plano
+    public static function verificaAlimentoPlano($idAlimento, $idPlano, $idRefeicao){
+        $sql = new Sql();
+        $results = $sql->select("
+        select * from tb_refeicoes_alimentos where
+        id_alimento = :IDALIMENTO and
+        id_plano = :IDPLANO and
+        id_refeicao = :IDREFEICAO
         ", array(
             ':IDALIMENTO'=>$idAlimento,
-            ':IDREFEICAO'=>$idRefeicao, 
             ':IDPLANO'=>$idPlano,
-            ':QTD'=>$qtd
+            ':IDREFEICAO'=>$idRefeicao
         ));
+
+        if (count($results) > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static function deleteAlimentoPlano($idAlimento, $idPlano, $idRefeicao, $qtd) {
@@ -166,8 +203,33 @@ class Nutricionista {
         id_plano = :IDPLANO and
         id_refeicao = :IDREFEICAO
         ", array(
-            ':QTD'=>$qtd
+            ':QTD'=>$qtd,
+            ':IDALIMENTO'=>$idAlimento,
+            ':IDPLANO'=>$idPlano,
+            ':IDREFEICAO'=>$idRefeicao
         ));
+    }
+
+    public static function login ($email, $senha) {
+        global $pdo;
+        
+        $sql="SELECT senha FROM tb_nutricionista where email=:email";
+            
+        $sql=$pdo->prepare($sql);
+        $sql->bindValue("email",$email);
+        $sql->execute();
+    
+        if($sql->rowCount()>0){
+            $dado = $sql->fetch();
+            if (password_verify($senha, $dado["senha"])){
+                $_SESSION["nutri"] = true;
+                return true;
+            } else {
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
 
 }

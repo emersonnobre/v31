@@ -17,6 +17,55 @@ a:visited {
   transition: 0.5s ease;
 }
 
+.fechar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  border: none;
+}
+
+/* Alertas */
+.toasts {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  max-width: 400px;
+  padding: 6px;
+  background: #cccccc;
+  color: #333333;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  border: 1px solid #aaaaaa;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s, top 0.2s, visibility 0.2s;
+}
+
+.toast--visible {
+  top: 20px;
+  visibility: visible;
+  opacity: 1;
+}
+
+.toast--success {
+  background: #00C02B;
+  border-color: #009D23;
+  color: white;
+}
+
+.toast--error {
+  background: #D50000;
+  border-color: #BA0000;
+  color: white;
+}
+
 /* Images */
 .perfil {
   max-width: 9.3rem;
@@ -339,6 +388,77 @@ body {
   padding: 0.4rem 0.2rem;
 }
 /* Boxs */
+
+.modal {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, .5);
+  position: fixed;
+  z-index: 2000;
+  top:0;
+  left:0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.mostrar {
+  display: flex;
+}
+
+.modal-erro {
+  background-color: ;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  width: 20%;
+  min-width: 50px;
+  position: relative;
+  padding: 20px;
+  text-align:  center;
+  border-radius: 7px;
+  box-shadow: 1px 1px rgba(0, 0, 0, .3);
+}
+
+.mostrar .modal-erro {
+  animation: modal-erro .3s;
+}
+
+.modal-aviso {
+  background-color: #27c527cc;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  width: 30%;
+  min-width: 200px;
+  position: relative;
+  padding: 40px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.mostrar .modal-aviso {
+  animation: modal .3s;
+}
+
+@keyframes modal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -60px, 0);
+  } 
+  to{
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes modal-erro {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -60px, 0);
+  } to{
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
 
 .box-border {
   border: solid 1px yellow;

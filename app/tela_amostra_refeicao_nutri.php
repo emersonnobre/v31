@@ -13,7 +13,7 @@ if ($_GET["ref"]){
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
-    <title>Perfil do paciente</title>
+    <title>Plano alimentar</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/reset.css">
@@ -22,10 +22,6 @@ if ($_GET["ref"]){
       rel="stylesheet"
     />
     <link rel="stylesheet" type="text/css" href="css/estilo.php" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lobster&display=swap"
-      rel="stylesheet"
-    />
   </head>
   <body class="bodyA">
     <header class="cabecalho">
